@@ -1,26 +1,237 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "Broadsheet";
+  src: url("/fonts/1484Broadsheet.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Addington CF";
+  src: url("/fonts/4854AddingtonCF-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Blackstone";
+  src: url("/fonts/5349Blackstone.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #003d4a;
+  --surface: #ffffff;
+  --accent: #447f9c;
+  --accent-dark: #356680;
+  --ink: #003d4a;
+  --muted: #5a6b70;
+  --border: #ece7e3;
+  --cream: #f7f3ef;
+  --teal-soft: #82c0c7;
+  --pattern: url("https://www.myhoneymoon.travel/wp-content/uploads/2021/03/RELEASE_myHoneymoon_Patterns-02-1.png");
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-surface: var(--surface);
+  --color-accent: var(--accent);
+  --color-accent-dark: var(--accent-dark);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-border: var(--border);
+  --color-cream: var(--cream);
+  --color-brand-ink: #003d4a;
+  --color-brand-teal: #447f9c;
+  --color-brand-teal-soft: #82c0c7;
+  --font-display: "Broadsheet", Georgia, "Times New Roman", serif;
+  --font-body: "Addington CF", Georgia, "Times New Roman", serif;
+  --font-script: "Blackstone", Georgia, cursive;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  color: var(--ink);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 28%, transparent);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-script {
+  font-family: var(--font-script);
+}
+
+.pattern-bg {
+  background-color: var(--cream);
+  background-image: var(--pattern);
+  background-size: 420px auto;
+  background-repeat: repeat;
+}
+
+.btn-ghost,
+.ghost-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  background: transparent;
+  padding: 0.75rem 1.85rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-ghost:hover,
+.ghost-btn:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-solid,
+.solid-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: var(--accent);
+  color: #fff;
+  border: 1.5px solid var(--accent);
+  padding: 0.75rem 1.85rem;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  transition: background 0.25s ease, border-color 0.25s ease;
+}
+
+.btn-solid:hover,
+.solid-btn:hover {
+  background: var(--accent-dark);
+  border-color: var(--accent-dark);
+}
+
+.prose-block p {
+  margin-bottom: 1.25rem;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+.prose-block h3 {
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+  font-size: 1.35rem;
+  color: var(--ink);
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fade-up 0.9s ease-out both;
+}
+
+.animate-fade-up-delay {
+  animation: fade-up 0.9s ease-out 0.15s both;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fade-up 0.9s ease-out 0.3s both;
+}
+
+@media print {
+  @page {
+    margin: 18mm 16mm;
+  }
+
+  body {
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.6;
+    padding-bottom: 0;
+  }
+
+  header:not(.folio-page),
+  footer,
+  nav,
+  .no-print,
+  .pattern-bg {
+    display: none !important;
+  }
+
+  .folio {
+    max-width: none;
+    padding: 0;
+  }
+
+  .folio-page {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .folio-page + .folio-page {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.75em;
+    color: #555;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
 }
