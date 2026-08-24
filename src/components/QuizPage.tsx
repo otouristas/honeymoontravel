@@ -4,7 +4,7 @@ import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Diamond } from "@/components/Logo";
-import { islandsBySlug } from "@/content/islands";
+import type { QuizIslandCard } from "@/content/quiz-cards";
 import { PLANNER_TYPES, QUIZ_QUESTIONS } from "@/content/quiz";
 import { routes } from "@/lib/paths";
 
@@ -21,7 +21,11 @@ function readStoredType(): string | null {
   }
 }
 
-export default function QuizPage() {
+export default function QuizPage({
+  islandCards,
+}: {
+  islandCards: Record<string, QuizIslandCard>;
+}) {
   const [step, setStep] = useState(0);
   const [scores, setScores] = useState<Record<string, number>>({});
   const [done, setDone] = useState(false);
@@ -145,12 +149,12 @@ export default function QuizPage() {
 
               <div className="mx-auto mt-10 grid max-w-lg gap-4 sm:grid-cols-2">
                 {result.islands.map((slug) => {
-                  const island = islandsBySlug[slug];
+                  const island = islandCards[slug];
                   if (!island) return null;
                   return (
                     <Link
                       key={slug}
-                      href={routes.island(slug)}
+                      href={island.href}
                       className="group block bg-white/80"
                     >
                       <div className="relative aspect-[4/3] overflow-hidden">

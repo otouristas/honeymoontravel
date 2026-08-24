@@ -190,6 +190,57 @@ a {
   animation: fade-up 0.9s ease-out 0.3s both;
 }
 
+/* Horizontal strips that scroll by touch but should not show a track. */
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* The heart the atlas traces across the Aegean: the line draws itself, then
+   the nodes settle in behind it. */
+@keyframes atlas-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes atlas-node {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: var(--node-opacity);
+  }
+}
+
+.atlas-heart-line {
+  stroke-dasharray: var(--dash);
+  stroke-dashoffset: var(--dash);
+  animation: atlas-draw 3s cubic-bezier(0.4, 0, 0.2, 1) 0.35s forwards;
+}
+
+.atlas-heart-node {
+  --node-opacity: 0.55;
+  opacity: 0;
+  animation: atlas-node 0.7s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .atlas-heart-line {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .atlas-heart-node {
+    opacity: var(--node-opacity);
+    animation: none;
+  }
+}
+
 @media print {
   @page {
     margin: 18mm 16mm;
