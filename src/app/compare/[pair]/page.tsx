@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   if (!compare) return {};
 
   return buildMetadata({
-    title: `${compare.title} for a Honeymoon | An Honest Comparison`,
+    title: `${compare.title} An honest comparison`,
     description: clampDescription(compare.answer),
     pathname: routes.compare(compare.slug),
     image: compare.left.image,

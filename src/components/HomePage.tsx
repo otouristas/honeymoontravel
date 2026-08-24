@@ -70,7 +70,7 @@ export default function HomePage() {
           </h1>
           <Diamond className="animate-fade-up-delay-2 mt-5 brightness-0 invert" />
           <p className="animate-fade-up-delay-2 mt-4 max-w-md font-body text-base text-white/90 md:text-lg">
-            Thirty-nine islands. One planner who has walked all of them.
+            Thirty-seven islands. One planner who has walked all of them.
           </p>
           <div className="animate-fade-up-delay-2 mt-8 flex flex-wrap justify-center gap-4">
             <Link

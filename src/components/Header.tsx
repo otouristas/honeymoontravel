@@ -64,6 +64,7 @@ export function Header() {
 
       <div
         id="site-menu"
+        inert={!open}
         className={`fixed inset-0 z-[60] bg-brand-ink/95 text-white transition duration-500 ${
           open ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"
         }`}

@@ -9,7 +9,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "Luxury Greece Honeymoon Planner | myHoneymoon",
   description:
-    "Bespoke Greek honeymoons planned island by island by Angeliki, a licensed premium guide with 20+ years' experience. 39 destinations, honest advice, no packages.",
+    "Bespoke Greek honeymoons planned island by island by Angeliki, a licensed premium guide with 20+ years' experience. 37 destinations, honest advice, no packages.",
   pathname: "/",
   image: IMAGES.heroes.home,
 });

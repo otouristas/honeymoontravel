@@ -144,7 +144,7 @@ export default function IslandAtlas() {
             <div>
               <p className="font-script text-4xl text-brand-teal">the atlas</p>
               <h3 className="mt-3 font-display text-3xl tracking-[0.05em] text-brand-ink">
-                Thirty-nine places, seven seas
+                Thirty-seven places, seven seas
               </h3>
               <p className="mt-5 text-brand-ink/70">
                 Hover a region to see the islands we plan there. Every one has its own

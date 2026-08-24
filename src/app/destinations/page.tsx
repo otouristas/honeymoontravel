@@ -16,7 +16,7 @@ import { breadcrumbSchema, faqSchema, graph } from "@/lib/schema";
 import { buildMetadata } from "@/lib/seo";
 
 const ANSWER =
-  "Greece has around 6,000 islands and roughly 200 inhabited ones. We plan honeymoons across 39 of them, grouped into seven regions: the Cyclades, Ionian, North Aegean, Attica and the Saronic, Crete, the Dodecanese and the Peloponnese.";
+  "Greece has around 6,000 islands and roughly 200 inhabited ones. We plan honeymoons across 37 of them, grouped into seven regions: the Cyclades, Ionian, North Aegean, Attica and the Saronic, Crete, the Dodecanese and the Peloponnese.";
 
 const FAQS = [
   {
@@ -42,9 +42,9 @@ const FAQS = [
 ];
 
 export const metadata: Metadata = buildMetadata({
-  title: "Greek Island Honeymoon Destinations | All 39, Region by Region",
+  title: "Greek Island Honeymoon Destinations | All 37, Region by Region",
   description:
-    "An honest atlas of the Greek islands for honeymooners — 39 destinations across seven regions, with who each one suits, how many nights it deserves, and when to go.",
+    "An honest atlas of the Greek islands for honeymooners — 37 destinations across seven regions, with who each one suits, how many nights it deserves, and when to go.",
   pathname: routes.destinations,
   image: IMAGES.heroes.destinations,
 });

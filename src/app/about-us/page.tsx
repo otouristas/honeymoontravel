@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import CtaSection from "@/components/CtaSection";
 import { Diamond } from "@/components/Logo";
@@ -20,7 +19,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "About Angeliki | Licensed Greek Guide & Honeymoon Planner",
   description:
-    "Angeliki is a licensed premium tour guide with more than twenty years in Greek travel. She plans honeymoons across 39 islands and will tell you when one of them is wrong for you.",
+    "Angeliki is a licensed premium tour guide with more than twenty years in Greek travel. She plans honeymoons across 37 islands and will tell you when one of them is wrong for you.",
   pathname: routes.about,
   image: IMAGES.heroes.about,
 });
@@ -31,7 +30,7 @@ const trail = [
 ];
 
 const ANSWER =
-  "myHoneymoon is Angeliki: a licensed premium tour guide in Greece with more than twenty years in the industry, planning honeymoons across 39 islands from Athens. One planner, no call centre, no packages.";
+  "myHoneymoon is Angeliki: a licensed premium tour guide in Greece with more than twenty years in the industry, planning honeymoons across 37 islands from Athens. One planner, no call centre, no packages.";
 
 const FAQS = [
   {
@@ -70,7 +69,7 @@ export default function Page() {
         image={IMAGES.heroes.about}
         alt="The Aegean from a Cycladic terrace"
         eyebrow="About"
-        title="One planner, thirty-nine islands"
+        title="One planner, thirty-seven islands"
         subtitle="And an opinion about every one of them"
         height="tall"
       />

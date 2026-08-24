@@ -18,7 +18,7 @@ import { buildMetadata } from "@/lib/seo";
 export const metadata: Metadata = buildMetadata({
   title: "The Greece Honeymoon Brochure | Print or Save as PDF",
   description:
-    "A printable folio of everything we plan — the seven regions, 39 islands, seven itineraries and how the process works. No email required, no download gate.",
+    "A printable folio of everything we plan — the seven regions, 37 islands, seven itineraries and how the process works. No email required, no download gate.",
   pathname: routes.brochure,
   image: IMAGES.heroes.brochure,
 });
@@ -66,7 +66,7 @@ export default function Page() {
           </h2>
           <Diamond className="mt-5" />
           <p className="mx-auto mt-6 max-w-md text-brand-ink/70">
-            Thirty-nine islands, seven regions, one planner who has walked all of them.
+            Thirty-seven islands, seven regions, one planner who has walked all of them.
           </p>
           <div className="relative mx-auto mt-10 aspect-[3/2] w-full max-w-lg overflow-hidden">
             <Image

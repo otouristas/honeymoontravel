@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Diamond } from "@/components/Logo";
@@ -10,19 +10,22 @@ import { routes } from "@/lib/paths";
 
 const STORAGE_KEY = "myhoneymoon:planner-type";
 
+/** sessionStorage is an external store, and it is not there during SSR. */
+const noopSubscribe = () => () => {};
+
+function readStoredType(): string | null {
+  try {
+    return window.sessionStorage.getItem(STORAGE_KEY);
+  } catch {
+    return null;
+  }
+}
+
 export default function QuizPage() {
   const [step, setStep] = useState(0);
   const [scores, setScores] = useState<Record<string, number>>({});
   const [done, setDone] = useState(false);
-  const [previous, setPrevious] = useState<string | null>(null);
-
-  useEffect(() => {
-    try {
-      setPrevious(window.sessionStorage.getItem(STORAGE_KEY));
-    } catch {
-      setPrevious(null);
-    }
-  }, []);
+  const previous = useSyncExternalStore(noopSubscribe, readStoredType, () => null);
 
   const result = done
     ? PLANNER_TYPES.reduce((best, t) =>
