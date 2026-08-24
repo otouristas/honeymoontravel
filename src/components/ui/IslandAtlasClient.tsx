@@ -3,24 +3,21 @@
 import Link from "next/link";
 import { useState } from "react";
 import type { AtlasRegion } from "@/content/atlas";
-import { LANDMASSES } from "@/content/map";
 import type { RegionSlug } from "@/content/types";
 import {
   MAP_HEIGHT,
   MAP_WIDTH,
   heartConstellation,
-  polygon,
   project,
 } from "@/lib/geo";
 import { routes } from "@/lib/paths";
 
-const LAND_PATHS = LANDMASSES.map((m) => ({ id: m.id, d: polygon(m.points) }));
-
-/** Centred on the open Aegean, east of Attica, so the outline threads between
- *  the Cyclades and the Dodecanese rather than sitting on the mainland. */
+/** Sits over the Cyclades, in open water, so the outline is a detail
+ *  on the Aegean rather than a sticker on the mainland. */
 const HEART = heartConstellation({
-  center: project([25.9, 37.3]),
-  width: 246,
+  center: project([25.35, 36.95]),
+  width: 168,
+  nodeCount: 12,
 });
 
 export default function IslandAtlasClient({
@@ -35,119 +32,124 @@ export default function IslandAtlasClient({
 
   return (
     <div className="mx-auto max-w-5xl px-6">
-      {/* Desktop: the map. Offset from the sticky header so region labels near
-          the top of the SVG stay clickable when the section is scrolled to. */}
-      <div className="hidden scroll-mt-28 md:grid md:grid-cols-[1.35fr_1fr] md:items-start md:gap-10">
-        <svg
-          viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
-          role="img"
-          aria-label={`Map of the Greek regions we plan honeymoons in, with a heart traced across the Aegean`}
-          className="w-full"
-        >
-          <rect width={MAP_WIDTH} height={MAP_HEIGHT} fill="var(--cream)" />
-
-          {LAND_PATHS.map((land) => (
-            <path
-              key={land.id}
-              d={land.d}
-              fill="var(--color-brand-teal-soft, #82c0c7)"
-              fillOpacity={0.35}
-              stroke="var(--accent)"
-              strokeWidth={1.2}
-              strokeLinejoin="round"
+      <div className="hidden scroll-mt-28 md:grid md:grid-cols-[1.45fr_1fr] md:items-start md:gap-10">
+        <div>
+          <div className="relative">
+            {/* Professional coastline. Overlay SVG shares this viewBox so
+                markers sit on the geography rather than a cartoon outline.
+                next/image does not usefully compress SVG, so this is a
+                static asset. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/maps/greece.svg"
+              alt=""
+              width={MAP_WIDTH}
+              height={MAP_HEIGHT}
+              className="h-auto w-full"
             />
-          ))}
-
-          <g
-            className="pointer-events-none transition-opacity duration-500"
-            opacity={active ? 0.3 : 1}
-          >
-            <path
-              d={HEART.d}
-              fill="none"
-              stroke="var(--accent)"
-              strokeWidth={1}
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              opacity={0.42}
-              className="atlas-heart-line"
-              style={{ "--dash": HEART.length } as React.CSSProperties}
-            />
-            {HEART.nodes.map(([x, y], i) => (
-              <rect
-                key={`${x}-${y}`}
-                x={x - 2.4}
-                y={y - 2.4}
-                width={4.8}
-                height={4.8}
-                transform={`rotate(45 ${x} ${y})`}
-                fill="var(--accent)"
-                className="atlas-heart-node"
-                style={{ animationDelay: `${900 + i * 110}ms` }}
-              />
-            ))}
-          </g>
-
-          {regions.flatMap((region) =>
-            region.islands.map((island) => {
-              if (!island.coord) return null;
-              const [x, y] = project(island.coord);
-              const highlighted = active !== null && region.slug === active;
-              const dimmed = active !== null && region.slug !== active;
-              return (
-                <rect
-                  key={island.slug}
-                  x={x - 3.5}
-                  y={y - 3.5}
-                  width={7}
-                  height={7}
-                  transform={`rotate(45 ${x} ${y})`}
-                  fill={highlighted ? "var(--accent-dark)" : "var(--ink)"}
-                  opacity={dimmed ? 0.18 : 0.85}
-                  stroke="var(--cream)"
-                  strokeWidth={1}
-                  className="transition-opacity duration-300"
-                />
-              );
-            }),
-          )}
-
-          {regions.map((region) => {
-            const [x, y] = project(region.anchor);
-            const isActive = active === region.slug;
-            return (
-              <Link
-                key={region.slug}
-                href={region.href}
-                aria-label={`${region.title} — ${region.islands.length} destinations`}
-                onMouseEnter={() => setActive(region.slug)}
-                onFocus={() => setActive(region.slug)}
-                className="cursor-pointer outline-none [&:focus-visible>rect]:stroke-brand-teal"
+            <svg
+              viewBox={`0 0 ${MAP_WIDTH} ${MAP_HEIGHT}`}
+              role="img"
+              aria-label="Map of Greece showing the islands we plan honeymoons on"
+              className="absolute inset-0 h-full w-full"
+            >
+              <g
+                className="pointer-events-none transition-opacity duration-500"
+                opacity={active ? 0.22 : 0.85}
               >
-                <rect
-                  x={x - 56}
-                  y={y - 15}
-                  width={112}
-                  height={22}
-                  fill="transparent"
-                  strokeWidth={1.5}
+                <path
+                  d={HEART.d}
+                  fill="none"
+                  stroke="var(--accent)"
+                  strokeWidth={1.1}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  opacity={0.55}
+                  className="atlas-heart-line"
+                  style={{ "--dash": HEART.length } as React.CSSProperties}
                 />
-                <text
-                  x={x}
-                  y={y}
-                  textAnchor="middle"
-                  className="pointer-events-none font-display"
-                  fontSize={14}
-                  letterSpacing={1.4}
-                  fill={isActive ? "var(--accent-dark)" : "var(--ink)"}
-                  opacity={isActive ? 1 : 0.6}
-                >
-                  {region.mapLabel}
-                </text>
-              </Link>
-            );
-          })}
-        </svg>
+                {HEART.nodes.map(([x, y], i) => (
+                  <circle
+                    key={`${x}-${y}`}
+                    cx={x}
+                    cy={y}
+                    r={2.2}
+                    fill="var(--accent)"
+                    className="atlas-heart-node"
+                    style={{ animationDelay: `${900 + i * 110}ms` }}
+                  />
+                ))}
+              </g>
+
+              {regions.flatMap((region) =>
+                region.islands.map((island) => {
+                  if (!island.coord) return null;
+                  const [x, y] = project(island.coord);
+                  const highlighted = active !== null && region.slug === active;
+                  const dimmed = active !== null && region.slug !== active;
+                  return (
+                    <circle
+                      key={island.slug}
+                      cx={x}
+                      cy={y}
+                      r={highlighted ? 4.2 : 3.2}
+                      fill={highlighted ? "var(--accent-dark)" : "var(--ink)"}
+                      opacity={dimmed ? 0.2 : 0.92}
+                      stroke="var(--cream)"
+                      strokeWidth={1.1}
+                      className="transition-all duration-300"
+                    />
+                  );
+                }),
+              )}
+
+              {regions.map((region) => {
+                const [x, y] = project(region.anchor);
+                const isActive = active === region.slug;
+                return (
+                  <Link
+                    key={region.slug}
+                    href={region.href}
+                    aria-label={`${region.title} — ${region.islands.length} destinations`}
+                    onMouseEnter={() => setActive(region.slug)}
+                    onFocus={() => setActive(region.slug)}
+                    className="cursor-pointer outline-none [&:focus-visible>rect]:stroke-brand-teal"
+                  >
+                    <rect
+                      x={x - 52}
+                      y={y - 14}
+                      width={104}
+                      height={20}
+                      fill="transparent"
+                    />
+                    <text
+                      x={x}
+                      y={y}
+                      textAnchor="middle"
+                      className="pointer-events-none font-display"
+                      fontSize={13}
+                      letterSpacing={1.3}
+                      fill={isActive ? "var(--accent-dark)" : "var(--ink)"}
+                      opacity={isActive ? 1 : 0.62}
+                    >
+                      {region.mapLabel}
+                    </text>
+                  </Link>
+                );
+              })}
+            </svg>
+          </div>
+          <p className="mt-2 text-[10px] tracking-wide text-brand-ink/35">
+            Coastline after{" "}
+            <a
+              href="https://commons.wikimedia.org/wiki/File:Greece_location_map.svg"
+              className="underline decoration-brand-ink/20 underline-offset-2 hover:text-brand-ink/55"
+            >
+              Lencer / Wikimedia
+            </a>
+            , CC BY-SA 3.0
+          </p>
+        </div>
 
         <div>
           {activeRegion ? (
@@ -187,8 +189,7 @@ export default function IslandAtlasClient({
                 suits, how many nights, and who should go somewhere else.
               </p>
               <p className="mt-4 text-sm italic text-brand-ink/45">
-                Join the Aegean together and it draws a heart. We noticed late, and
-                have not stopped seeing it since.
+                The Aegean already knows the shape. We only traced it.
               </p>
               <Link href={routes.destinations} className="btn-ghost mt-8 inline-block">
                 All destinations
@@ -198,7 +199,6 @@ export default function IslandAtlasClient({
         </div>
       </div>
 
-      {/* Mobile: a vertical index */}
       <div className="space-y-8 md:hidden">
         {regions.map((region) => (
           <div key={region.slug} className="border-t border-brand-teal/20 pt-5">

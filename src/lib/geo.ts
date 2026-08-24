@@ -1,14 +1,12 @@
-/** Equirectangular projection tuned to the Greek bounding box.
- *  Good enough for a stylised map; not for navigation. */
-export const MAP_WIDTH = 600;
-export const MAP_HEIGHT = 620;
+/** Matches `public/maps/greece.svg` — Lencer's Wikimedia location map
+ *  (equirectangular, N/S stretch already baked into the viewBox). */
+export const MAP_WIDTH = 1002.9881;
+export const MAP_HEIGHT = 824.66919;
 
-/** Padded beyond Greece's true bounding box so region labels sitting in open
- *  sea are not clipped by the viewBox edge. */
-const LON_MIN = 18.2;
-const LON_MAX = 29.4;
-const LAT_MIN = 34.2;
-const LAT_MAX = 42.2;
+const LON_MIN = 19.1;
+const LON_MAX = 29.9;
+const LAT_MIN = 34.6;
+const LAT_MAX = 42.0;
 
 export function project([lon, lat]: [number, number]): [number, number] {
   const x = ((lon - LON_MIN) / (LON_MAX - LON_MIN)) * MAP_WIDTH;
